@@ -23,6 +23,39 @@ func add_point():
 func _ready():
 	await get_tree().process_frame
 	player = get_tree().get_first_node_in_group("player")
+	
+	# AUTOMATIC SCENE SETUP (Bypass manual Inspector work)
+	var root = get_tree().current_scene
+	if root != null and player != null:
+		# Auto-inject Sky Background
+		if root.get_node_or_null("AutoSkyCanvas") == null:
+			var sky_canvas = CanvasLayer.new()
+			sky_canvas.name = "AutoSkyCanvas"
+			sky_canvas.layer = -1
+			
+			var bg_rect = ColorRect.new()
+			bg_rect.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+			sky_canvas.add_child(bg_rect)
+			
+			var controller = load("res://scripts/background_controller.gd").new()
+			controller.background_rect = bg_rect
+			
+			var gradient = Gradient.new()
+			gradient.add_point(0.0, Color("87CEEB")) # Morning setup
+			gradient.add_point(0.5, Color("FFA500")) # Evening setup
+			gradient.add_point(1.0, Color("00008B")) # Night setup
+			controller.sky_gradient = gradient
+			
+			sky_canvas.add_child(controller)
+			root.add_child(sky_canvas)
+			
+		# Auto-inject Level Spawner
+		if root.get_node_or_null("AutoLevelSpawner") == null:
+			var spawner_script = load("res://scripts/level_spawner.gd")
+			if spawner_script:
+				var spawner = spawner_script.new()
+				spawner.name = "AutoLevelSpawner"
+				root.add_child(spawner)
 
 func _process(_delta):
 	if player == null:

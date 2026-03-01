@@ -40,8 +40,26 @@ func _process(_delta):
 	cleanup_old_chunks()
 
 func spawn_chunk(scale_difficulty: bool):
+	var chunk_instance: Node2D
+	
 	if chunk_scenes.is_empty():
-		return
+		# AUTOMATIC FALLBACK: Create a generic chunk out of thin air if the user hasn't set one up!
+		chunk_instance = Node2D.new()
+		chunk_instance.name = "AutoChunk"
+		
+		# Try to duplicate the existing level's TileMap to act as the ground
+		var existing_tilemap = get_tree().current_scene.get_node_or_null("TileMap")
+		if existing_tilemap:
+			var duplicated_tilemap = existing_tilemap.duplicate()
+			# Reset position for the new chunk relative to the chunk instance origin
+			duplicated_tilemap.global_position = Vector2.ZERO 
+			chunk_instance.add_child(duplicated_tilemap)
+			
+		# Optional: duplicate coins/platforms too, but keep it simple for now
+	else:
+		# Normally, instantiate the pre-made scene the user assigned in the inspector
+		var random_index = randi() % chunk_scenes.size()
+		chunk_instance = chunk_scenes[random_index].instantiate() as Node2D
 		
 	# Randomly select a chunk from the array
 	var random_index = randi() % chunk_scenes.size()

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://b1234568aaabc"]
+
+[ext_resource type="PackedScene" uid="uid://cuv4vme4rwno0" path="res://scenes/game.tscn" id="1"]
+
+[node name="Chunk" type="Node2D"]
+
+[node name="TileMap" type="TileMap" parent="." instance=ExtResource("1")]
+# We will construct a generic chunk dynamically or ask the user to just run it as we copy their tilemap
