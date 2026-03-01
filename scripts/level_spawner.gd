@@ -60,10 +60,6 @@ func spawn_chunk(scale_difficulty: bool):
 		# Normally, instantiate the pre-made scene the user assigned in the inspector
 		var random_index = randi() % chunk_scenes.size()
 		chunk_instance = chunk_scenes[random_index].instantiate() as Node2D
-		
-	# Randomly select a chunk from the array
-	var random_index = randi() % chunk_scenes.size()
-	var chunk_instance = chunk_scenes[random_index].instantiate() as Node2D
 	
 	# Position the chunk
 	chunk_instance.global_position = Vector2(next_spawn_x, 0)
