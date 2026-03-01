@@ -66,7 +66,7 @@ func spawn_chunk(scale_difficulty: bool):
 	
 	# Optional: Interface with Chunk script to scale difficulty (e.g., spawn more enemies)
 	if scale_difficulty and chunk_instance.has_method("apply_difficulty"):
-		var gm = get_node_or_null("/root/GameManager")
+		var gm = get_tree().current_scene.get_node_or_null("%GameManager")
 		if gm != null:
 			chunk_instance.apply_difficulty(gm.difficulty_multiplier)
 	
