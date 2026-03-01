@@ -11,6 +11,15 @@ var distance_traveled: float = 0.0
 var difficulty_multiplier: float = 1.0
 var player: Node2D
 
+# Original GameManager Features Restored
+var score = 0
+@export var score_label: Label
+
+func add_point():
+	score += 1
+	if score_label:
+		score_label.text = "You collected " + str(score) + " coins."
+
 func _ready():
 	await get_tree().process_frame
 	player = get_tree().get_first_node_in_group("player")
