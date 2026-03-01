@@ -20,9 +20,6 @@ func _ready():
 		push_error("LevelSpawner: No node in group 'player' found!")
 		return
 		
-	if chunk_scenes.is_empty():
-		push_error("LevelSpawner: No chunk scenes assigned!")
-		return
 		
 	# Spawn initial chunks
 	for i in range(start_chunks):
